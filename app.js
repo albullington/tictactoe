@@ -6,58 +6,59 @@ var init = function() {
 window.onload = init;
 
 //MODEL
-var player = 1;
+var player = {
+  turn: 'X',
+  currentTurn: 0
+};
 
-//rules for the game
-  //similar to nQueens - check for three X's or three O's in a row
-  		//horizontal
-  		//diagonal
-  		//vertical
-  //if there's a match, trigger an alert that says "winner is player Z"
-
-// var checkForEmptySquares = function() {
-//   var square = Array.from(document.getElementsByTagName('td'));
-//   square.forEach(function(element) {
-//   	if (element.innerHTML === "") {
-//       return true;
-//   	} else {
-//   		return false;
-//   	}
-//   });
-// }
-
-//CONTROLLER - all requests go here
-//set up an event listener that understands player click
-  //should send instructions to model to carry out logic
-  	//logic: place appropriate letter on board
-  	//toggle to next letter (X, then O)
-  //should send instructions to view to update the interface based on model/logic
-
-var changeSquares = function() {
-	var gameboard = document.getElementById('gameboard');
-	var addX = function(e) {
-		if (e.target !== e.currentTarget && e.target.innerHTML === "") {
-      if (player === 1) {
-				e.target.innerHTML = "X";
-				player = 0; 
-      } else {
-      	e.target.innerHTML = "O";
-      	player = 1;
-      }
-		}
-	}
-	gameboard.addEventListener('click', addX);
+var gameboardObject = {
+	row1: [], 
+	row2: [], 
+	row3: [],
 }
 
-//set up second event listener for button
-  // button resets game for new round of gameplay
-  		// this sets the model back to X as the first letter
-  		// it also clears the board
+var checkIfBoardFull = function() {
+	if (player.currentTurn === 9) {
+		return true;
+	} 
+	return false;
+};
+
+var toggleTurn = function(e) {
+	if (e.target !== e.currentTarget && e.target.innerHTML === "") {
+    if (player.turn === 'X') {
+			e.target.innerHTML = "X";
+			player.turn = 'O'; 
+			player.currentTurn++;
+    } else {
+    	e.target.innerHTML = "O";
+    	player.turn = 'X';
+    	player.currentTurn++;
+    }
+	}
+};
+
+// var checkIfLegalMove = function(e) {
+// 	if (e.target !== e.currentTarget && e.target.innerHTML === "") {
+// 		placePiece();
+// 	} else {
+// 		console.log('pick a different square');
+// 	}
+// };
+
+// var placePiece = function() {
+
+// }
+
+//event listeners are below
+var changeSquares = function() {
+	var gameboard = document.getElementById('gameboard');
+	gameboard.addEventListener('click', toggleTurn);
+}
 
 var resetGame = function(){
 	var button = document.getElementById('reset');
 	button.addEventListener('click', function() {
-		player = 0;
 		var square = Array.from(document.getElementsByTagName('td'));
 		square.forEach(function(element) {
 			element.innerHTML = "";
@@ -65,7 +66,14 @@ var resetGame = function(){
 	});
 }
 
-//VIEW
-//display winner alert to players
-//display X's and O's on board
+var checkRowForThree = function() {
 
+}
+
+var checkColumnForThree = function() {
+
+}
+
+var checkDiagonalForThree = function() {
+
+}

@@ -55,11 +55,13 @@ var changeSquares = function() {
 
 var resetGame = function(){
 	var button = document.getElementById('reset');
-		button.addEventListener('click', function() {
-			player = 0;
-			document.getElementById('gameboard').querySelectorAll('square').innerHTML = "";
-			//console.log('button clicked', button);
+	button.addEventListener('click', function() {
+		player = 0;
+		var square = Array.from(document.getElementsByTagName('td'));
+		square.forEach(function(element) {
+			element.innerHTML = "";
 		});
+	});
 }
 
 //VIEW

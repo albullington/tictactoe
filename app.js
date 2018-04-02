@@ -18,6 +18,15 @@
   	//logic: place appropriate letter on board
   	//toggle to next letter (X, then O)
   //should send instructions to view to update the interface based on model/logic
+window.onload=function() {
+	var gameboard = document.getElementById('gameboard');
+		var addX = function(e) {
+			if (e.target !== e.currentTarget) {
+				e.target.innerHTML = "X";
+			}
+		}
+		gameboard.addEventListener('click', addX);
+}
 
 //set up second event listener for button
   // button resets game for new round of gameplay
@@ -28,17 +37,3 @@
 //display winner alert to players
 //display X's and O's on board
 
-//console.log('app is connected');
-
-var addX = function() {
-	console.log('add X here');
-}
-
-
-window.onload=function() {
-	var gameboard = document.getElementById('gameboard');
-	if (gameboard) {
-		console.log('gameboard', gameboard);
-		gameboard.addEventListener('click', addX);
-	}
-}

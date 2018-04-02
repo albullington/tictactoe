@@ -18,11 +18,19 @@
   	//logic: place appropriate letter on board
   	//toggle to next letter (X, then O)
   //should send instructions to view to update the interface based on model/logic
+var player = 1;
+
 window.onload=function() {
 	var gameboard = document.getElementById('gameboard');
 		var addX = function(e) {
 			if (e.target !== e.currentTarget) {
-				e.target.innerHTML = "X";
+        if (player === 1) {
+					e.target.innerHTML = "X";
+					player = 0; 
+        } else {
+        	e.target.innerHTML = "O";
+        	player = 1;
+        }
 			}
 		}
 		gameboard.addEventListener('click', addX);

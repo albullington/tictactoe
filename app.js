@@ -5,55 +5,39 @@ var init = function() {
 //this and the above function are needed to get multiple event handlers to load
 window.onload = init;
 
-//MODEL
-var player = {
-  turn: 'X',
+var game = {
+  player: 'X',
   currentTurn: 0
 };
 
-var gameboardObject = {
-	row1: [], 
-	row2: [], 
-	row3: [],
-}
-
-var checkIfBoardFull = function() {
-	if (player.currentTurn === 9) {
-		return true;
-	} 
-	return false;
-};
-
-var toggleTurn = function(e) {
+//game logic
+var isLegalMove = function(e) {
 	if (e.target !== e.currentTarget && e.target.innerHTML === "") {
-    if (player.turn === 'X') {
-			e.target.innerHTML = "X";
-			player.turn = 'O'; 
-			player.currentTurn++;
-    } else {
-    	e.target.innerHTML = "O";
-    	player.turn = 'X';
-    	player.currentTurn++;
-    }
+		return true;
 	}
 };
 
-// var checkIfLegalMove = function(e) {
-// 	if (e.target !== e.currentTarget && e.target.innerHTML === "") {
-// 		placePiece();
-// 	} else {
-// 		console.log('pick a different square');
-// 	}
-// };
+var togglePlayer = function() {
+	if (game.player === 'X') {
+  	game.player = 'O';
+  } else {
+  	game.player = 'X';
+  }
+}
 
-// var placePiece = function() {
-
-// }
+var placePiece = function(e) {
+  if (isLegalMove(e)) {
+		e.target.innerHTML = game.player;
+		togglePlayer();
+		isWinnerPossible();
+    game.currentTurn++;
+  }
+}
 
 //event listeners are below
 var changeSquares = function() {
 	var gameboard = document.getElementById('gameboard');
-	gameboard.addEventListener('click', toggleTurn);
+	gameboard.addEventListener('click', placePiece);
 }
 
 var resetGame = function(){
@@ -64,16 +48,35 @@ var resetGame = function(){
 			element.innerHTML = "";
 		});
 	});
+};
+
+var isWinnerPossible = function() {
+	if (game.currentTurn >= 3) {
+		announceWinner('X');
+		announceWinner('O');
+		return true;
+	}
+};
+
+var selectSquareText = function(number) {
+	return document.getElementById("square" + number).innerHTML;
 }
 
-var checkRowForThree = function() {
-
+var checkForThree = function(a, b, c, player) {
+  if (isWinnerPossible) {
+  	if (selectSquareText(a) === player && selectSquareText(b) === player && selectSquareText(c) === player) {
+  		window.alert('Player ' + player + ' is the winner');
+  	}
+  }
 }
 
-var checkColumnForThree = function() {
-
-}
-
-var checkDiagonalForThree = function() {
-
+var announceWinner = function(player) {
+	checkForThree(1, 2, 3, player);
+	checkForThree(4, 5, 6, player);
+	checkForThree(7, 8, 9, player);
+	checkForThree(1, 4, 7, player);
+	checkForThree(2, 5, 8, player);
+	checkForThree(3, 6, 9, player);
+  checkForThree(1, 5, 9, player);
+	checkForThree(3, 5, 7, player);
 }
